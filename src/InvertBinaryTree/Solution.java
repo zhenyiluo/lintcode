@@ -19,10 +19,20 @@ public class Solution {
         if(root == null){
             return;
         } 
-        TreeNode tmp = root.left;
-        root.left = root.right;
-        root.right = tmp;
-        invertBinaryTree(root.left);
-        invertBinaryTree(root.right);
+        
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        stack.push(root);
+        while(!stack.isEmpty()){
+            TreeNode cur = stack.pop();
+            TreeNode tmp = cur.left;
+            cur.left = cur.right;
+            cur.right = tmp;
+            if(cur.left != null){
+                stack.push(cur.left);
+            }
+            if(cur.right != null){
+                stack.push(cur.right);
+            }
+        }
     }
 }
