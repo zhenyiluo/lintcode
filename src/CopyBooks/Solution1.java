@@ -1,5 +1,5 @@
-// O(n*log(p)) Total runtime: 1371 ms.
-public class Solution {
+// O(n^2 k) 1339 ms
+public class Solution1 {
     /**
      * @param pages: an array of integers
      * @param k: an integer
