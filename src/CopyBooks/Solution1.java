@@ -7,37 +7,35 @@ public class Solution1 {
      */
     public int copyBooks(int[] pages, int k) {
         // write your code here
-        int left = 1;
-        int right = (int) (1e9);
-        int ret = 0;
-        while(left <= right){
-            int mid = left + ((right -left)>>1);
-            if(check(pages, mid, k)){
-                ret = mid;
-                right = mid -1;
-            }else{
-                left = mid + 1;
+        int m = pages.length;
+        int[][] dp = new int[k+1][m+1];
+        int sum = 0; 
+        int max = 0;
+        for(int i = 0; i < m; i++){
+            sum += pages[i];
+            dp[1][i+1] = sum;
+            max = Math.max(pages[i], max);
+        }
+        
+        if(k >= m){
+            return max;
+        }
+        
+        for(int i = 2; i <= k; i++){
+            for(int j = m-1; j >= i-1; j--){
+                int cur = pages[j];
+                int min = Math.max(cur, dp[i-1][j]);
+                dp[i][j+1] = min;
+                for(int l = j-1; l >= i-1; l--){
+                    cur += pages[l];
+                    int curMin = Math.max(cur, dp[i-1][l]);
+                    if(curMin < min){
+                        dp[i][j+1] = curMin;
+                        min = curMin;
+                    }
+                }
             }
         }
-        return ret;
-    }
-    
-    private boolean check(int[] pages, int total, int k){
-        int sum = 0;
-        int count = 0;
-        for(int i = 0; i < pages.length; ){
-            if(sum + pages[i] <= total){
-                sum += pages[i++];
-            }else if(pages[i] <= total){
-                sum = 0;
-                count++;
-            }else{
-                return false;
-            }
-        }
-        if(sum != 0){
-            count ++;
-        }
-        return count <= k;
+        return dp[k][m];
     }
 }
