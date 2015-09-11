@@ -1,3 +1,4 @@
+// 2086 ms
 public class Solution {
     /**
      * @param matrix: a matrix of 0 and 1
