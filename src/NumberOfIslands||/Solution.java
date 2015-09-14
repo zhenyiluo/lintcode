@@ -7,6 +7,7 @@
  *     Point(int a, int b) { x = a; y = b; }
  * }
  */
+// TLE with this solution
 public class Solution {
     /**
      * @param n an integer
@@ -25,14 +26,14 @@ public class Solution {
         boolean[][] visited = new boolean[n][m];
         List<HashSet<Pair>> lists = new LinkedList<HashSet<Pair>>();
         for(int i = 0; i < operators.length; i++){
-            ArrayList<Point> neighbours = new ArrayList<Point>();
+            ArrayList<Pair> neighbours = new ArrayList<Pair>();
             int x = operators[i].x;
             int y = operators[i].y;
-            for(int i = 0; i < 4; i++){
-                int nx = x + dx[i];
-                int ny = y + dy[i];
+            for(int j = 0; j < 4; j++){
+                int nx = x + dx[j];
+                int ny = y + dy[j];
                 if(nx >= 0 && ny >= 0 && nx < n && ny < m && visited[nx][ny]){
-                    neighbours.add(new Point(nx, ny));
+                    neighbours.add(new Pair(nx, ny));
                 }
             }
             if(neighbours.size()== 0){
@@ -44,12 +45,46 @@ public class Solution {
             }else{
                 List<HashSet<Pair>> tmp = lists;
                 lists = new LinkedList<HashSet<Pair>>();
+                HashSet<Pair> merge = new HashSet<Pair>();
                 for(HashSet<Pair> hs : tmp){
-                
+                    if(!contains(hs, neighbours, merge)){
+                        lists.add(hs);
+                    }
                 } 
+                merge.add(new Pair(x, y));
+                lists.add(merge);
+                ret.add(lists.size());
+                visited[x][y] = true;
             }
             
         }
         return ret;
+    }
+    
+    public boolean contains(HashSet<Pair> hs, ArrayList<Pair> neighbours, HashSet<Pair> merge){
+        boolean flag = false;
+        for(Pair neighbour : neighbours){
+            if(hs.contains(neighbour)){
+                merge.addAll(hs);
+                flag = true;
+            }
+        }
+        return flag;
+    }
+    
+    static class Pair{
+        int x;
+        int y;
+        public Pair(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+        public boolean equals(Object obj){
+            Pair pair = (Pair) obj;
+            return this.x == pair.x && this.y == pair.y;
+        }
+        public int hashCode(){
+            return 10 * x + y;
+        }
     }
 }
