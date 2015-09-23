@@ -14,10 +14,15 @@ public class Solution {
         int ret = Integer.MAX_VALUE;
         for(int i = 0; i < nums.length; i++){
             sum += nums[i];
-            while(sum - nums[left] >= 0){
+            while(sum - nums[left] >= s){
                 sum -= nums[left++];
             }
-            ret = Math.min(ret, i - left +1);
+            if(sum >= s){
+                ret = Math.min(ret, i - left +1);
+            }
+        }
+        if(ret == Integer.MAX_VALUE){
+            return -1;
         }
         return ret;
     }
