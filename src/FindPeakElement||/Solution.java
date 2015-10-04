@@ -16,26 +16,19 @@ class Solution {
             return ret;
         }
         
-        for(int i = 1; i < m-1; i++){
-            int j = findLargest(A[i], 1, n-2);
-            if(A[i][j] > A[i-1][j] && A[i][j] > A[i+1][j]){
+        int i = 1; 
+        int j = 1;
+        while(true){
+            if(A[i][j] > A[i+1][j] && A[i][j] > A[i][j+1]){
                 ret.add(i);
                 ret.add(j);
                 return ret;
             }
-        }
-        
-        return ret;
-    }
-    
-    private int findLargest(int[] A, int start, int end){
-        int mid = start + ((end - start) >> 1);
-        if(A[mid] < A[mid-1]){
-            return findLargest(A, start, mid-1);
-        }else if(A[mid]  < A[mid+1]){
-            return findLargest(A, mid +1, end);
-        }else{
-            return mid;
+            if(A[i+1][j] > A[i][j+1]){
+                i++;
+            }else{
+                j++;
+            }
         }
     }
 }
