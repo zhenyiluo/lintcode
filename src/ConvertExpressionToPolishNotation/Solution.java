@@ -77,3 +77,77 @@ public class Solution {
         }
     }
 }
+
+
+// Solution 2:
+
+public class Solution {
+    /**
+     * @param expression: A string array
+     * @return: The Polish notation of this expression
+     */
+    public ArrayList<String> convertToPN(String[] expression) {
+        // write your code here
+        ArrayList<String> ret = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<String>();
+        if(expression == null || expression.length == 0){
+            return ret;
+        }
+        Stack<String> op = new Stack<String>();
+        int len = expression.length;
+        
+        for(int i = len-1; i >= 0; i--){
+            String cur = expression[i];
+            if(isOp(cur)){
+                if(cur.equals(")")){
+                    op.push(cur);
+                }else{
+                    if(cur.equals("(")){
+                        while(!op.isEmpty()){
+                            String tmp = op.pop();
+                            if(tmp.equals(")")){
+                                break;
+                            }
+                            list.add(tmp);
+                        }
+                    }else{
+                        while(!op.isEmpty() && getOrder(op.peek()) > getOrder(cur)){
+                            list.add(op.pop());
+                        }
+                        op.push(cur);
+                    }
+                }
+            }else{
+                list.add(cur);
+            }
+        }
+        
+        while(!op.isEmpty()){
+            list.add(op.pop());
+        }
+        
+        for(int i = list.size()-1; i>= 0; i--){
+            ret.add(list.get(i));
+        }
+        
+        return ret;
+    }
+    
+    public boolean isOp(String s){
+        if(s.equals("+") || s.equals("-")|| s.equals("*")|| s.equals("/")
+        || s.equals("(") ||s.equals(")")){
+            return true;
+        }
+        return false;
+    }
+    
+    public int getOrder(String s){
+        if(s.equals("*") || s.equals("/")){
+            return 2;
+        }else if(s.equals("+") || s.equals("-")){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+}
