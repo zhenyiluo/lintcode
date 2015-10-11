@@ -28,3 +28,32 @@ public class Solution {
         return ret+1;
     }
 }
+
+// Another solution:
+public class Solution {
+    /**
+     * @param A an integer array
+     * @return a long integer
+     */
+    public long permutationIndex(int[] A) {
+        // Write your code here
+        if(A == null || A.length == 0){
+            return 0;
+        }
+        
+        long ret = 1;
+        long fac = 1;
+        for(int i = A.length -1; i >= 0; i--){
+            int rank = 0;
+            for(int j = i+1; j < A.length; j++){
+                if(A[i] > A[j]){
+                    rank ++;
+                }
+            }
+            ret += rank * fac;
+            fac *= A.length - i;
+        }
+        return ret;
+    }
+}
+
