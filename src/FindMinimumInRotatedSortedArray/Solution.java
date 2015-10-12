@@ -35,15 +35,18 @@ public class Solution {
             return 0;
         }
         
-        int low = 0;
+        int low = 0; 
         int high = num.length -1;
+        int min = num[0];
         while(low <= high){
             int mid = low + ((high - low) >> 1);
-            if(num[mid] > num[num.length -1]){
+            min = Math.min(min, num[mid]);
+            if(num[mid] > num[high]){
                 low = mid + 1;
-            }else if(nums[mid] < nums[num{
-                
+            }else{
+                high = mid - 1;
             }
         }
+        return min;
     }
 }
