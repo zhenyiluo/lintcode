@@ -33,3 +33,37 @@ public class Solution {
         return ret;
     }
 }
+
+
+public class Solution {
+    /**
+     * @param digits A digital string
+     * @return all posible letter combinations
+     */
+     String[] s = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    public ArrayList<String> letterCombinations(String digits) {
+        // Write your code here
+        ArrayList<String> ret = new ArrayList<String>();
+        if(digits == null || digits.length() == 0){
+            return ret;
+        }
+        ret.add("");
+        int len = digits.length();
+        
+        for(int i= 0; i < digits.length(); i++){
+            char c = digits.charAt(i);
+            int index = c - '2';
+            String tmp = s[index];
+            ArrayList<String> list = ret;
+            ret = new ArrayList<String>();
+            for(String sTmp : list){
+                for(int j = 0; j < tmp.length(); j++){
+                    ret.add(sTmp + tmp.charAt(j));
+                }
+            }
+        }
+        
+        return ret;
+    }
+}
+
